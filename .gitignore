@@ -33,6 +33,11 @@
 
 
 *.dSYM
+*.sh
+.vscode
 
-maxtwo/maxtwo
-helloworld/helloworld
+Lecture-Code/maxtwo/maxtwo
+Lecture-Code/helloworld/helloworld
+Lecture-Code/pointers/pointers
+HW/sqrt/sqrt
+
