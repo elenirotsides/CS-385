@@ -3,7 +3,7 @@
  * Author  : Eleni Rotsides
  * Version : 1.0
  * Date    : January 26, 2022
- * Description : Computes the square root of a double using Newton's method with an allowed difference of epsilon, if provided.
+ * Description : A Student class that keeps track of students and their grades.
  * Pledge : I pledge my honor that I have abided by the Stevens Honor System.
  ******************************************************************************/
 #include <iostream>
@@ -35,7 +35,7 @@ public:
     void print_info() const
     {
         cout << full_name() + ", "
-             << "GPA: " << gpa() << ", ID: " << id() << endl;
+             << "GPA: " << fixed << setprecision(2) << gpa() << ", ID: " << id() << endl;
     }
 
 private:
@@ -45,9 +45,9 @@ private:
 };
 
 /**
-* Takes a vector of Student objects, and returns a new vector
-* with all Students whose GPA is < 1.0.
-*/
+ * Takes a vector of Student objects, and returns a new vector
+ * with all Students whose GPA is < 1.0.
+ */
 vector<Student> find_failing_students(const vector<Student> &students)
 {
     vector<Student> failing_students;
@@ -66,7 +66,7 @@ vector<Student> find_failing_students(const vector<Student> &students)
 }
 
 /**
-* Takes a vector of Student objects and prints them to the screen. */
+ * Takes a vector of Student objects and prints them to the screen. */
 void print_students(const vector<Student> &students)
 {
     // Iterates through the students vector, calling print_info() for each student.
@@ -77,7 +77,7 @@ void print_students(const vector<Student> &students)
 }
 
 /**
-* Allows the user to enter information for multiple students, then * find those students whose GPA is below 1.0 and prints them to the * screen. */
+ * Allows the user to enter information for multiple students, then * find those students whose GPA is below 1.0 and prints them to the * screen. */
 int main()
 {
     string first_name, last_name;
@@ -112,12 +112,14 @@ int main()
     cout << endl
          << "Failing students:";
 
-    // TODO
     // Print a space and the word 'None' on the same line if no students are failing.
     // Otherwise, print each failing student on a separate line.
-    if(find_failing_students(students).size() == 0){
+    if (find_failing_students(students).size() == 0)
+    {
         cout << " None" << endl;
-    } else {
+    }
+    else
+    {
         cout << endl;
         print_students(find_failing_students(students));
     }
