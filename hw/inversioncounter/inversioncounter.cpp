@@ -24,7 +24,20 @@ static long mergesort(int array[], int scratch[], int low, int high);
  */
 long count_inversions_slow(int array[], int length)
 {
-    // TODO
+    long numInversions = 0;
+
+    for (int i = 0; i < length - 1; i++)
+    {
+        for (int j = i + 1; j < length; j++)
+        {
+            if (array[i] > array[j])
+            {
+                numInversions++;
+            }
+        }
+    }
+
+    return numInversions;
 }
 
 /**
@@ -32,24 +45,33 @@ long count_inversions_slow(int array[], int length)
  */
 long count_inversions_fast(int array[], int length)
 {
-    // TODO
-    // Hint: Use mergesort!
+    // initializing an empty array that has the same length as array
+    int *scratch = new int[length];
+
+    long numInversions = mergesort(array, scratch, 0, length - 1);
+
+    delete[] scratch; // need to delete since scratch was allocated on the heap
+    return numInversions;
 }
 
 static long mergesort(int array[], int scratch[], int low, int high)
 {
-    // TODO
+    long numInversions = 0;
+
+    // mergesort algorithm written according to pseudocode provided by prof borowski
+    // in the lecture video on canvas
+
     if (low < high)
     {
         int mid = low + (high - low) / 2;
 
-        mergesort(array, scratch, low, mid);
-        mergesort(array, scratch, mid + 1, high);
+        //                       left side recursion                     right side recursion
+        numInversions += mergesort(array, scratch, low, mid) + mergesort(array, scratch, mid + 1, high);
 
         int L = low;
         int H = mid + 1;
 
-        for (size_t i = low; i < high; i++)
+        for (int i = low; i <= high; i++)
         {
             if (L <= mid && (H > high || array[L] <= array[H]))
             {
@@ -60,14 +82,19 @@ static long mergesort(int array[], int scratch[], int low, int high)
             {
                 scratch[i] = array[H];
                 H++;
+
+                // if we need to take from the right side, then that means every number before array[H] is an inversion of array[H]
+                numInversions += mid - L + 1; // formula taken from prof borowski's canvas video
             }
         }
 
-        for (size_t i = low; i < high; i++)
+        for (int i = low; i <= high; i++)
         {
+            // copy the sorted scratch array into the original array
             array[i] = scratch[i];
         }
     }
+    return numInversions;
 }
 
 int main(int argc, char *argv[])
@@ -83,7 +110,7 @@ int main(int argc, char *argv[])
     istringstream iss;
 
     if (argc == 2)
-    {
+    { // if the second arg isn't "slow", print error
         iss.str(argv[1]);
         if (!(iss >> secondArg) || secondArg != "slow")
         {
@@ -135,8 +162,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    // TODO: produce output
-
     if (values.empty())
     {
         cerr << "Error: Sequence of integers not received." << endl;
@@ -145,13 +170,11 @@ int main(int argc, char *argv[])
 
     if (argc == 2)
     {
-    // cout << "Number of inversions: 0" << endl;
-    TODO:
+        cout << "Number of inversions: " << count_inversions_slow(&values[0], values.size()) << endl;
     }
     else
     {
-    // cout << "Number of inversions: 0" << endl;
-    TODO:
+        cout << "Number of inversions: " << count_inversions_fast(&values[0], values.size()) << endl;
     }
 
     return 0;
